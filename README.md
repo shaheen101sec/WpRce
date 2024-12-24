@@ -1,4 +1,3 @@
-Here’s a beautiful and powerful `README.md` for your WordPress RCE Vulnerability Scanner tool:
 # WordPress RCE Vulnerability Scanner
 
 
