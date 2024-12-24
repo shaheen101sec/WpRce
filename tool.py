@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 import re
 import argparse
 from pathlib import Path
+from urllib.parse import urlparse
 
 console = Console()
 
@@ -16,25 +17,29 @@ payloads = [
 ]
 
 # Sensitive keywords to check for in the response
-sensitive_keywords = ["root", "bin", "sudo", "/etc/passwd", "sh", "bash", "nc", "wget"]
+sensitive_keywords = ["root", "sudo", "/etc/passwd", "bash", "wget", "admin"]
 
 # Function to print the logo
 def print_logo():
     logo = """
- █████   ███   █████ ███████████     ███████████     █████████  ██████████
-░░███   ░███  ░░███ ░░███░░░░░███   ░░███░░░░░███   ███░░░░░███░░███░░░░░█
- ░███   ░███   ░███  ░███    ░███    ░███    ░███  ███     ░░░  ░███  █ ░
- ░███   ░███   ░███  ░██████████     ░██████████  ░███          ░██████
- ░░███  █████  ███   ░███░░░░░░      ░███░░░░░███ ░███          ░███░░█
-  ░░░█████░█████░    ░███            ░███    ░███ ░░███     ███ ░███ ░   █
-    ░░███ ░░███      █████           █████   █████ ░░█████████  ██████████
-     ░░░   ░░░      ░░░░░           ░░░░░   ░░░░░   ░░░░░░░░░  ░░░░░░░░░░
-
-
-
+██████╗ ██████╗ ███████╗██████╗ ██████╗ ███████╗███████╗    ██████╗  ██████╗███████╗
+██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝    ██╔══██╗██╔════╝██╔════╝
+██║  ██║██║  ██║█████╗  ██████╔╝██████╔╝█████╗  █████╗      ██║  ██║██║     █████╗
+██║  ██║██║  ██║██╔══╝  ██╔═══╝ ██╔═══╝ ██╔══╝  ██╔══╝      ██║  ██║██║     ██╔══╝
+██████╔╝██████╔╝███████╗██║     ██║     ███████╗███████╗    ██████╔╝╚██████╗███████╗
+╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝     ╚══════╝╚══════╝    ╚═════╝  ╚═════╝╚══════╝
 """
     console.print(f"[bold blue]{logo}[/bold blue]")
     console.print("[bold green]WordPress RCE Vulnerability Scanner[/bold green]\n")
+
+# Function to ensure the domain includes "https://"
+def ensure_https(domain: str) -> str:
+    # Check if the domain already includes "http://" or "https://"
+    parsed_url = urlparse(domain)
+    if not parsed_url.scheme:
+        # Add "https://" if the domain doesn't have a scheme
+        domain = f"https://{domain}"
+    return domain
 
 # Function to check a single domain
 def check_domain(domain):
@@ -57,6 +62,7 @@ def check_domain(domain):
 
 # Function to process a domain
 def process_domain(domain):
+    domain = ensure_https(domain)  # Ensure the domain is prefixed with "https://"
     results = check_domain(domain)
     domain_results = []
     for url, vulnerable in results:
